@@ -554,6 +554,65 @@
 
 </section>
 
+<!-- =========================
+     PROJECT GALLERY
+     ========================= -->
+
+<section id="gallery" class="section">
+
+    <p class="section-label">PROJECT GALLERY</p>
+
+    <h2>Technical Work in the Field</h2>
+
+    <p class="section-intro">
+        A visual look at selected ICT, networking and ELV work across
+        project sites, including installation, testing, surveys and
+        infrastructure deployment.
+    </p>
+
+    <div class="gallery-container">
+
+        <div class="gallery-stage">
+
+            <button
+                type="button"
+                class="gallery-button gallery-prev"
+                id="galleryPrev"
+                aria-label="Previous image">
+                ‹
+            </button>
+
+            <img
+                id="galleryImage"
+                class="gallery-image"
+                src="images/Projects/Eneo%203city/Gallery/01_control_room_team.jpg"
+                alt="ICT infrastructure project work">
+
+            <button
+                type="button"
+                class="gallery-button gallery-next"
+                id="galleryNext"
+                aria-label="Next image">
+                ›
+            </button>
+
+        </div>
+
+        <div class="gallery-footer">
+
+            <span id="galleryCounter">1 / 20</span>
+
+            <div
+                class="gallery-dots"
+                id="galleryDots">
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
 
         <!-- =========================
              CERTIFICATIONS
@@ -759,6 +818,167 @@
     </p>
 </footer>
 
+<script>
+    const galleryImages = [
+        "01_control_room_team.jpg",
+        "02_ekahau_sidekick.jpg",
+        "03_ekahau_wifi_survey.jpg",
+        "04_project_site_exterior.jpg",
+        "05_network_rack_cabling.jpg",
+        "06_fiber_termination_work.jpg",
+        "07_fiber_toolkit.jpg",
+        "08_project_site_portrait.jpg",
+        "09_hotel_guest_area.jpg",
+        "10_wifi_survey_pool_area.jpg",
+        "11_hsc_team_technical_support.jpg",
+        "12_access_point_installation_01.jpg",
+        "13_access_point_installation_02.jpg",
+        "14_access_point_installation_03.jpg",
+        "15_access_point_installation_04.jpg",
+        "16_hsc_branding_site.jpg",
+        "17_network_rack_patching.jpg",
+        "18_jw_marriott_site.jpg",
+        "19_technical_engineer_hardhat.jpg",
+        "20_network_engineer_server_room.jpg"
+    ];
+
+    const galleryContainer = document.querySelector(".gallery-container");
+    const galleryImage = document.getElementById("galleryImage");
+    const galleryPrev = document.getElementById("galleryPrev");
+    const galleryNext = document.getElementById("galleryNext");
+    const galleryCounter = document.getElementById("galleryCounter");
+    const galleryDots = document.getElementById("galleryDots");
+
+    let currentGalleryIndex = 0;
+    let galleryTimer;
+
+    function updateGallery() {
+
+        const imageName = galleryImages[currentGalleryIndex];
+
+        galleryImage.style.opacity = "0";
+
+        setTimeout(() => {
+
+            galleryImage.src =
+                "images/Projects/Eneo%203city/Gallery/" + imageName;
+
+            galleryImage.alt =
+                "ICT infrastructure project work - image " +
+                (currentGalleryIndex + 1);
+
+            galleryImage.style.opacity = "1";
+
+        }, 120);
+
+        galleryCounter.textContent =
+            (currentGalleryIndex + 1) +
+            " / " +
+            galleryImages.length;
+
+        document.querySelectorAll(".gallery-dot").forEach((dot, index) => {
+
+            dot.classList.toggle(
+                "active",
+                index === currentGalleryIndex
+            );
+
+        });
+    }
+
+    function nextGalleryImage() {
+
+        currentGalleryIndex++;
+
+        if (currentGalleryIndex >= galleryImages.length) {
+            currentGalleryIndex = 0;
+        }
+
+        updateGallery();
+    }
+
+    function previousGalleryImage() {
+
+        currentGalleryIndex--;
+
+        if (currentGalleryIndex < 0) {
+            currentGalleryIndex = galleryImages.length - 1;
+        }
+
+        updateGallery();
+    }
+
+    function startGalleryAutoSlide() {
+
+        clearInterval(galleryTimer);
+
+        galleryTimer = setInterval(() => {
+
+            nextGalleryImage();
+
+        }, 4000);
+    }
+
+    function stopGalleryAutoSlide() {
+
+        clearInterval(galleryTimer);
+    }
+
+    galleryImages.forEach((image, index) => {
+
+        const dot = document.createElement("button");
+
+        dot.type = "button";
+        dot.className = "gallery-dot";
+
+        dot.setAttribute(
+            "aria-label",
+            "View gallery image " + (index + 1)
+        );
+
+        dot.addEventListener("click", () => {
+
+            currentGalleryIndex = index;
+
+            updateGallery();
+
+            startGalleryAutoSlide();
+
+        });
+
+        galleryDots.appendChild(dot);
+    });
+
+    galleryPrev.addEventListener("click", () => {
+
+        previousGalleryImage();
+
+        startGalleryAutoSlide();
+
+    });
+
+    galleryNext.addEventListener("click", () => {
+
+        nextGalleryImage();
+
+        startGalleryAutoSlide();
+
+    });
+
+    galleryContainer.addEventListener(
+        "mouseenter",
+        stopGalleryAutoSlide
+    );
+
+    galleryContainer.addEventListener(
+        "mouseleave",
+        startGalleryAutoSlide
+    );
+
+    updateGallery();
+
+    startGalleryAutoSlide();
+</script>
 </body>
 
 </html>
